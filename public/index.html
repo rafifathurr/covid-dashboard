@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link
+      rel="icon"
+      href="https://data.who.int/ResourcePackages/DDIBootstrap5/assets/src/images/icons/navigation/who-logo.svg"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <title>Covid Dashboard</title>
+  </head>
+  <body>
+    <nav class="bg-white-800 w-full">
+      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+          <div
+            class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
+          >
+            <div class="flex flex-shrink-0 items-center">
+              <img
+                class="h-8 w-auto"
+                src="https://data.who.int/ResourcePackages/DDIBootstrap5/assets/src/images/icons/navigation/who-logo.svg"
+                alt="Your Company"
+              />
+              <div class="font-bold text-black p-3">
+                <span class="link__brand">
+                  <span>World Health Organization</span>
+                  <abbr>WHO</abbr>
+                </span>
+                <span class="link__site">Data</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <section>
+        <div>
+          <div class="w-full bg-blue-950 p-10">
+            <div
+              class="flex flex-row justify-between mx-auto max-w-7xl px-2 sm:px-6 lg:px-8"
+            >
+              <div class="p-2">
+                <h1 class="text-white font-bold">WHO COVID-19 Dashboard</h1>
+              </div>
+              <div class="p-2">
+                <h2 class="text-white font-bold">
+                  WHO Health Emergencies Programme
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="w-full p-10">
+            <div id="map" class="w-100" style="height: 300px"></div>
+          </div>
+        </div>
+        <div>
+            <div class="w-full p-10">
+                <div
+              class="flex flex-row justify-between mx-auto max-w-7xl px-2 sm:px-6 lg:px-8"
+            >
+              <div class="p-2">
+                <div id="chart-1"></div>
+              </div>
+              <div class="p-2">
+                <div id="chart-2"></div>
+              </div>
+        </div>
+      </section>
+    </main>
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script>
+      var map = L.map("map", {
+        minZoom: 2.4,
+        maxZoom: 22,
+        attributionControl: false,
+        maxBounds: [
+          [90, -180],
+          [-90, 180],
+        ],
+      }).setView([-1.504137, 117.378671], 4.4);
+      L.tileLayer("http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}", {
+        noWrap: true,
+        maxZoom: 22,
+        subdomains: ["mt0", "mt1", "mt2", "mt3"],
+      }).addTo(map);
+
+      Highcharts.chart('chart-1', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Recent COVID-19 cases reported to WHO (weekly)',
+            align: 'left'
+        },
+        subtitle: {
+            text:'World, July 2023 - present',
+            align: 'left'
+        },
+        xAxis: {
+            categories: ['Aug 2023', 'Sept 2023', 'Oct 2023', 'Nov 2023', 'Dec 2023'],
+            crosshair: true,
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [
+            {
+                data: [51086, 136000, 5500, 141000, 107180]
+            }
+        ]
+    });
+
+    Highcharts.chart('chart-2', {
+        chart: {
+            type: 'area'
+        },
+        title: {
+            text: 'Total COVID-19 cases reported to WHO (weekly)',
+            align: 'left'
+        },
+        subtitle: {
+            text: 'World, January 2020 - present',
+            align: 'left'
+        },
+        tooltip: {
+            pointFormat: ''
+        },
+        plotOptions: {
+            area: {
+                pointStart: 2020,
+                marker: {
+                    enabled: false,
+                    symbol: 'circle',
+                    radius: 2,
+                    states: {
+                        hover: {
+                            enabled: true
+                        }
+                    }
+                }
+            }
+        },
+        series: [{
+            data: [
+                null, null, null, null, null, 2, 9, 13, 50, 170, 299, 438, 841,
+                1169, 1703, 2422, 3692, 5543, 7345, 12298, 18638, 22229, 25540,
+                28133, 29463, 31139, 31175, 31255, 29561, 27552, 26008, 25830,
+                26516, 27835, 28537, 27519, 25914, 25542, 24418, 24138, 24104,
+                23208, 22886, 23305, 23459, 23368, 23317, 23575, 23205, 22217,
+                21392, 19008, 13708, 11511, 10979, 10904, 11011, 10903, 10732,
+                10685, 10577, 10526, 10457, 10027, 8570, 8360, 7853, 5709, 5273,
+                5113, 5066, 4897, 4881, 4804, 4717, 4571, 4018, 3822, 3785, 3805,
+                3750, 3708, 3708
+            ]
+        }]
+    });
+    </script>
+  </body>
+</html>
